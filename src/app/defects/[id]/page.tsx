@@ -50,6 +50,7 @@ export default async function DefectDetailPage({
           <div className="flex shrink-0 gap-2">
             <Button
               variant="outline"
+              nativeButton={false}
               render={<Link href={`/defects/${defect.id}/edit`} />}
             >
               Bearbeiten

@@ -35,7 +35,9 @@ export default async function DefectsPage() {
             {rows.length} {rows.length === 1 ? "Eintrag" : "Einträge"}
           </p>
         </div>
-        <Button render={<Link href="/defects/new" />}>Neuer Fehler</Button>
+        <Button nativeButton={false} render={<Link href="/defects/new" />}>
+          Neuer Fehler
+        </Button>
       </div>
 
       {rows.length === 0 ? (

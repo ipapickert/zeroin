@@ -164,6 +164,7 @@ export function DefectForm({
         </Button>
         <Button
           variant="outline"
+          nativeButton={false}
           render={
             <Link href={defect ? `/defects/${defect.id}` : "/defects"} />
           }
