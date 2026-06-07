@@ -13,6 +13,10 @@ erweitert. **Aktueller Stand: Stufe 0 (lauffähige Basis, nur `defects`-CRUD).**
 - SQLite (dateibasiert) mit Drizzle ORM, kein Docker / kein externer DB-Server
 - Tailwind CSS v4 + shadcn/ui (Preset „base-nova", Komponenten auf Basis von
   `@base-ui/react`, Icons von `lucide-react`)
+- Schriften: Space Grotesk (Display/Überschriften, Utility `font-display`) +
+  Inter (Fließtext) + Geist Mono. Hell/Dunkel-Umschaltung via `next-themes`.
+- Markenfarbe (violett) und semantische Status-Farben in `src/lib/status-styles.ts`
+  (offen = amber, in Bearbeitung = blau, erledigt = grün, überfällig = rot)
 
 ## Befehle
 
@@ -35,8 +39,9 @@ Setup nach dem Klonen: `npm install` → `npm run db:migrate` → `npm run db:se
 ## Projektstruktur
 
 - `src/app/` – App-Router-Seiten
-  - `defects/` Liste, `defects/new` Anlegen, `defects/[id]` Detail,
-    `defects/[id]/edit` Bearbeiten
+  - `defects/` Übersicht (Board **und** Tabelle, Umschaltung über `?view=board|list`),
+    `defects/new` Anlegen, `defects/[id]` Detail, `defects/[id]/edit` Bearbeiten
+- `src/app/layout.tsx` – App-Shell: Sidebar (`app-sidebar.tsx`) + Theme-Provider
 - `src/actions/defects.ts` – Server Actions (create / update / delete) inkl. Validierung
 - `src/db/` – Drizzle: `schema.ts`, `index.ts` (DB-Client), `migrate.ts`, `seed.ts`
 - `src/lib/labels.ts` – **Label-Map**: englische Enum-Keys → deutsche UI-Texte

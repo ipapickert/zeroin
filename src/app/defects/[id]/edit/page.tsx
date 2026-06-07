@@ -1,4 +1,5 @@
 import { eq } from "drizzle-orm";
+import { ArrowLeft } from "lucide-react";
 import Link from "next/link";
 import { notFound } from "next/navigation";
 import { updateDefect } from "@/actions/defects";
@@ -21,18 +22,23 @@ export default async function EditDefectPage({
       <div>
         <Link
           href={`/defects/${defect.id}`}
-          className="text-sm text-muted-foreground hover:text-foreground"
+          className="inline-flex items-center gap-1.5 text-sm text-muted-foreground transition-colors hover:text-foreground"
         >
-          ← Zurück zur Detailansicht
+          <ArrowLeft className="size-4" />
+          Zurück zur Detailansicht
         </Link>
-        <h1 className="mt-2 text-2xl font-semibold">Fehler bearbeiten</h1>
+        <h1 className="mt-3 font-display text-2xl font-semibold tracking-tight">
+          Fehler bearbeiten
+        </h1>
       </div>
 
-      <DefectForm
-        action={updateDefect}
-        defect={defect}
-        submitLabel="Speichern"
-      />
+      <div className="rounded-xl border bg-card p-6 shadow-sm">
+        <DefectForm
+          action={updateDefect}
+          defect={defect}
+          submitLabel="Speichern"
+        />
+      </div>
     </div>
   );
 }

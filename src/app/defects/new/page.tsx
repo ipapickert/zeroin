@@ -1,3 +1,4 @@
+import { ArrowLeft } from "lucide-react";
 import Link from "next/link";
 import { createDefect } from "@/actions/defects";
 import { DefectForm } from "@/components/defects/defect-form";
@@ -8,14 +9,19 @@ export default function NewDefectPage() {
       <div>
         <Link
           href="/defects"
-          className="text-sm text-muted-foreground hover:text-foreground"
+          className="inline-flex items-center gap-1.5 text-sm text-muted-foreground transition-colors hover:text-foreground"
         >
-          ← Zurück zur Liste
+          <ArrowLeft className="size-4" />
+          Zurück zur Liste
         </Link>
-        <h1 className="mt-2 text-2xl font-semibold">Neuen Fehler anlegen</h1>
+        <h1 className="mt-3 font-display text-2xl font-semibold tracking-tight">
+          Neuen Fehler anlegen
+        </h1>
       </div>
 
-      <DefectForm action={createDefect} submitLabel="Anlegen" />
+      <div className="rounded-xl border bg-card p-6 shadow-sm">
+        <DefectForm action={createDefect} submitLabel="Anlegen" />
+      </div>
     </div>
   );
 }

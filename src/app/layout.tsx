@@ -1,11 +1,17 @@
 import type { Metadata } from "next";
-import { Geist, Geist_Mono } from "next/font/google";
-import { SiteHeader } from "@/components/site-header";
+import { Geist_Mono, Inter, Space_Grotesk } from "next/font/google";
+import { AppSidebar, MobileTopbar } from "@/components/app-sidebar";
+import { ThemeProvider } from "@/components/theme-provider";
 import { Toaster } from "@/components/ui/sonner";
 import "./globals.css";
 
-const geistSans = Geist({
-  variable: "--font-geist-sans",
+const inter = Inter({
+  variable: "--font-inter",
+  subsets: ["latin"],
+});
+
+const spaceGrotesk = Space_Grotesk({
+  variable: "--font-space-grotesk",
   subsets: ["latin"],
 });
 
@@ -28,14 +34,27 @@ export default function RootLayout({
   return (
     <html
       lang="de"
-      className={`${geistSans.variable} ${geistMono.variable} h-full antialiased`}
+      suppressHydrationWarning
+      className={`${inter.variable} ${spaceGrotesk.variable} ${geistMono.variable} antialiased`}
     >
-      <body className="min-h-full flex flex-col">
-        <SiteHeader />
-        <main className="mx-auto w-full max-w-5xl flex-1 px-4 py-8">
-          {children}
-        </main>
-        <Toaster />
+      <body className="bg-background text-foreground">
+        <ThemeProvider
+          attribute="class"
+          defaultTheme="system"
+          enableSystem
+          disableTransitionOnChange
+        >
+          <div className="flex min-h-svh">
+            <AppSidebar />
+            <div className="flex min-w-0 flex-1 flex-col">
+              <MobileTopbar />
+              <main className="mx-auto w-full max-w-6xl flex-1 px-4 py-8 md:px-8 md:py-10">
+                {children}
+              </main>
+            </div>
+          </div>
+          <Toaster />
+        </ThemeProvider>
       </body>
     </html>
   );
