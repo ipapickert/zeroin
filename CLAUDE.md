@@ -42,7 +42,11 @@ Setup nach dem Klonen: `npm install` → `npm run db:migrate` → `npm run db:se
 - `src/lib/labels.ts` – **Label-Map**: englische Enum-Keys → deutsche UI-Texte
 - `src/lib/format.ts` – Datumsformatierung (de-DE)
 - `src/components/defects/` – fachliche Komponenten (Formular, Badges, Löschen-Dialog)
-- `src/components/ui/` – shadcn/ui-Komponenten (nicht manuell stark umbauen)
+- `src/components/ui/` – shadcn/ui-Komponenten (nicht manuell stark umbauen).
+  Diese basieren auf `@base-ui/react`, **nicht** auf Radix: zum Verschmelzen mit
+  einem anderen Element `render={<Element />}` verwenden (kein `asChild`). Wird
+  ein `Button` als Link gerendert, zusätzlich `nativeButton={false}` setzen, z. B.
+  `<Button nativeButton={false} render={<Link href="…" />}>Text</Button>`.
 - `drizzle/` – generierte SQL-Migrationen
 - `data/` – lokale SQLite-Datei (git-ignoriert)
 
