@@ -8,9 +8,11 @@ import { integer, sqliteTable, text } from "drizzle-orm/sqlite-core";
  */
 export const STATUS_VALUES = ["open", "in_progress", "done"] as const;
 export const PRIORITY_VALUES = ["low", "medium", "high"] as const;
+export const ROLE_VALUES = ["admin", "user", "viewer"] as const;
 
 export type Status = (typeof STATUS_VALUES)[number];
 export type Priority = (typeof PRIORITY_VALUES)[number];
+export type Role = (typeof ROLE_VALUES)[number];
 
 /**
  * `defects` (Fehler) — the core table of the tracker.
@@ -42,3 +44,27 @@ export const defects = sqliteTable("defects", {
 
 export type Defect = typeof defects.$inferSelect;
 export type NewDefect = typeof defects.$inferInsert;
+
+/**
+ * `users` (Benutzer) — manually managed accounts. No registration or login yet;
+ * entries are created by hand. The password is never stored in plain text: only
+ * a salted hash lives in `password_hash` (see `src/lib/password.ts`).
+ */
+export const users = sqliteTable("users", {
+  id: integer("id").primaryKey({ autoIncrement: true }),
+  // Name
+  name: text("name").notNull(),
+  // E-Mail (eindeutig)
+  email: text("email").notNull().unique(),
+  // Salted hash of the password — never the plain text.
+  passwordHash: text("password_hash").notNull(),
+  // Rolle: Administrator / Benutzer / Betrachter
+  role: text("role", { enum: ROLE_VALUES }).notNull().default("user"),
+  // Erstellt am
+  createdAt: integer("created_at", { mode: "timestamp" })
+    .notNull()
+    .default(sql`(unixepoch())`),
+});
+
+export type User = typeof users.$inferSelect;
+export type NewUser = typeof users.$inferInsert;

@@ -1,6 +1,8 @@
 import {
   type Priority,
   PRIORITY_VALUES,
+  type Role,
+  ROLE_VALUES,
   type Status,
   STATUS_VALUES,
 } from "@/db/schema";
@@ -25,12 +27,22 @@ export const PRIORITY_LABELS: Record<Priority, string> = {
   high: "hoch",
 };
 
+export const ROLE_LABELS: Record<Role, string> = {
+  admin: "Administrator",
+  user: "Benutzer",
+  viewer: "Betrachter",
+};
+
 export function statusLabel(status: Status): string {
   return STATUS_LABELS[status];
 }
 
 export function priorityLabel(priority: Priority): string {
   return PRIORITY_LABELS[priority];
+}
+
+export function roleLabel(role: Role): string {
+  return ROLE_LABELS[role];
 }
 
 /** Options for <select> inputs: { value: englishKey, label: germanText }. */
@@ -42,4 +54,9 @@ export const STATUS_OPTIONS = STATUS_VALUES.map((value) => ({
 export const PRIORITY_OPTIONS = PRIORITY_VALUES.map((value) => ({
   value,
   label: PRIORITY_LABELS[value],
+}));
+
+export const ROLE_OPTIONS = ROLE_VALUES.map((value) => ({
+  value,
+  label: ROLE_LABELS[value],
 }));

@@ -1,12 +1,21 @@
 "use client";
 
-import { Bug, Target } from "lucide-react";
+import { Bug, LogOut, Target, Users } from "lucide-react";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
+import { logout } from "@/actions/auth";
 import { ThemeToggle } from "@/components/theme-toggle";
+import { Button } from "@/components/ui/button";
+import type { Role } from "@/db/schema";
+import { roleLabel } from "@/lib/labels";
 import { cn } from "@/lib/utils";
 
-const nav = [{ href: "/defects", label: "Fehler", icon: Bug }];
+type SidebarUser = { name: string; role: Role };
+
+const nav = [
+  { href: "/defects", label: "Fehler", icon: Bug, adminOnly: false },
+  { href: "/users", label: "Benutzer", icon: Users, adminOnly: true },
+];
 
 function Brand() {
   return (
@@ -24,15 +33,41 @@ function Brand() {
   );
 }
 
-export function AppSidebar() {
+function UserMenu({ user }: { user: SidebarUser }) {
+  return (
+    <div className="space-y-3 border-t pt-4">
+      <div className="flex flex-col leading-tight">
+        <span className="truncate text-sm font-medium">{user.name}</span>
+        <span className="text-xs text-muted-foreground">
+          {roleLabel(user.role)}
+        </span>
+      </div>
+      <form action={logout}>
+        <Button
+          type="submit"
+          variant="outline"
+          size="sm"
+          className="w-full justify-start"
+        >
+          <LogOut className="size-4" />
+          Abmelden
+        </Button>
+      </form>
+    </div>
+  );
+}
+
+export function AppSidebar({ user }: { user: SidebarUser }) {
   const pathname = usePathname();
+  const isAdmin = user.role === "admin";
+  const items = nav.filter((item) => !item.adminOnly || isAdmin);
 
   return (
     <aside className="sticky top-0 hidden h-svh w-60 shrink-0 flex-col border-r bg-sidebar px-4 py-5 md:flex">
       <Brand />
 
       <nav className="mt-8 flex flex-1 flex-col gap-1">
-        {nav.map((item) => {
+        {items.map((item) => {
           const active = pathname.startsWith(item.href);
           return (
             <Link
@@ -52,7 +87,9 @@ export function AppSidebar() {
         })}
       </nav>
 
-      <div className="flex items-center justify-between border-t pt-4">
+      <UserMenu user={user} />
+
+      <div className="mt-4 flex items-center justify-between border-t pt-4">
         <span className="text-xs text-muted-foreground">lokal · privat</span>
         <ThemeToggle />
       </div>

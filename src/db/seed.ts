@@ -1,5 +1,6 @@
+import { hashPassword } from "../lib/password";
 import { db, DB_PATH } from "./index";
-import { defects, type NewDefect } from "./schema";
+import { defects, type NewDefect, type NewUser, users } from "./schema";
 
 /**
  * Seeds the database with realistic example defects so the list (and later the
@@ -412,10 +413,41 @@ const seedData: NewDefect[] = [
   },
 ];
 
+// Example users. The same demo password is hashed for every account; there is
+// no login yet, so this is only so the list looks populated after a seed.
+const DEMO_PASSWORD = "passwort123";
+
+const seedUsers: NewUser[] = [
+  {
+    name: "Anna Becker",
+    email: "anna.becker@example.com",
+    role: "admin",
+    passwordHash: hashPassword(DEMO_PASSWORD),
+  },
+  {
+    name: "Tobias Mayer",
+    email: "tobias.mayer@example.com",
+    role: "user",
+    passwordHash: hashPassword(DEMO_PASSWORD),
+  },
+  {
+    name: "Sandra Klein",
+    email: "sandra.klein@example.com",
+    role: "viewer",
+    passwordHash: hashPassword(DEMO_PASSWORD),
+  },
+];
+
 async function seed() {
   await db.delete(defects);
   await db.insert(defects).values(seedData);
-  console.log(`Seeded ${seedData.length} defects into ${DB_PATH}`);
+
+  await db.delete(users);
+  await db.insert(users).values(seedUsers);
+
+  console.log(
+    `Seeded ${seedData.length} defects and ${seedUsers.length} users into ${DB_PATH}`,
+  );
 }
 
 seed();
