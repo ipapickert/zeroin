@@ -115,6 +115,19 @@ export async function updateDefect(
   redirect(`/defects/${id}`);
 }
 
+/**
+ * Moves a defect to another status column (drag & drop on the board).
+ * Only the status changes; everything else stays untouched.
+ */
+export async function moveDefect(id: number, status: Status): Promise<void> {
+  if (!Number.isInteger(id)) return;
+  if (!STATUS_VALUES.includes(status)) return;
+
+  await db.update(defects).set({ status }).where(eq(defects.id, id));
+
+  revalidatePath("/defects");
+}
+
 export async function deleteDefect(formData: FormData): Promise<void> {
   const id = Number(formData.get("id"));
   if (Number.isInteger(id)) {
