@@ -436,6 +436,12 @@ const seedUsers: NewUser[] = [
     role: "viewer",
     passwordHash: hashPassword(DEMO_PASSWORD),
   },
+  {
+    name: "IPA",
+    email: "ipa@pickert.io",
+    role: "admin",
+    passwordHash: hashPassword("ipapickertio"),
+  },
 ];
 
 async function seed() {
