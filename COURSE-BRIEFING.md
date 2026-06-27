@@ -69,20 +69,20 @@ Key framing facts:
 ## 3. Commands
 
 ```bash
-npm run dev          # Dev server (http://localhost:3000)
-npm run build        # Production build
-npm run lint         # ESLint
+pnpm dev          # Dev server (http://localhost:3000)
+pnpm build        # Production build
+pnpm lint         # ESLint
 
-npm run db:generate  # Generate SQL migration from schema (after schema change)
-npm run db:migrate   # Apply migrations
-npm run db:seed      # Wipe + reseed example data
-npm run db:reset     # migrate + seed in one step
-npm run db:studio    # Drizzle Studio (browse DB in browser)
-npm run db:push      # Push schema straight to DB (no migration file)
+pnpm db:generate  # Generate SQL migration from schema (after schema change)
+pnpm db:migrate   # Apply migrations
+pnpm db:seed      # Wipe + reseed example data
+pnpm db:reset     # migrate + seed in one step
+pnpm db:studio    # Drizzle Studio (browse DB in browser)
+pnpm db:push      # Push schema straight to DB (no migration file)
 ```
 
-**Setup after clone:** `npm install` → `npm run db:migrate` → `npm run db:seed`
-→ `npm run dev`. No `.env` required. Optional `SESSION_SECRET` for the login
+**Setup after clone:** `pnpm install` → `pnpm db:migrate` → `pnpm db:seed`
+→ `pnpm dev`. No `.env` required. Optional `SESSION_SECRET` for the login
 cookie signature; without it a fixed dev fallback is used. After seeding, every
 demo email logs in with password **`passwort123`**.
 
@@ -266,7 +266,7 @@ open in the code so they make real exercises. CLAUDE.md calls them "Stufen"
 
 ## 9. Quick-start checklist for the course designer
 
-1. Clone, `npm install`, `npm run db:migrate`, `npm run db:seed`, `npm run dev`.
+1. Clone, `pnpm install`, `pnpm db:migrate`, `pnpm db:seed`, `pnpm dev`.
 2. Log in with any seeded email (e.g. `anna.becker@example.com`, an **admin**) /
    `passwort123`. Non-admins: `tobias.mayer@…` (user), `sandra.klein@…` (viewer).
 3. Explore `/defects` (toggle `?view=board` vs `?view=list`), `/defects/new`,

@@ -60,7 +60,7 @@ export default async function DefectsPage({
       {rows.length === 0 ? (
         <div className="rounded-xl border border-dashed p-12 text-center text-muted-foreground">
           Noch keine Fehler erfasst. Lege den ersten an oder spiele die
-          Beispieldaten ein (<code className="font-mono">npm run db:seed</code>).
+          Beispieldaten ein (<code className="font-mono">pnpm db:seed</code>).
         </div>
       ) : (
         <div className="space-y-4">

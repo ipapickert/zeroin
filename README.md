@@ -25,22 +25,22 @@ externer Datenbankserver, keine Anmeldung.
 ## Voraussetzungen
 
 - Node.js 20 oder neuer
-- npm
+- pnpm
 
 ## Setup
 
 ```bash
 # 1. Abhängigkeiten installieren
-npm install
+pnpm install
 
 # 2. Datenbank anlegen (Migration anwenden)
-npm run db:migrate
+pnpm db:migrate
 
 # 3. Beispieldaten einspielen
-npm run db:seed
+pnpm db:seed
 
 # 4. Dev-Server starten
-npm run dev
+pnpm dev
 ```
 
 Danach die App unter **http://localhost:3000** öffnen (die Startseite leitet auf
@@ -54,14 +54,14 @@ die Fehlerliste `/defects` weiter).
 
 | Befehl                | Beschreibung                                            |
 | --------------------- | ------------------------------------------------------- |
-| `npm run dev`         | Dev-Server starten                                      |
-| `npm run build`       | Production-Build erstellen                              |
-| `npm run lint`        | ESLint ausführen                                        |
-| `npm run db:generate` | SQL-Migration aus dem Schema erzeugen                   |
-| `npm run db:migrate`  | Migrationen auf die Datenbank anwenden                  |
-| `npm run db:seed`     | Datenbank leeren und mit Beispieldaten füllen           |
-| `npm run db:reset`    | `db:migrate` + `db:seed` in einem Schritt               |
-| `npm run db:studio`   | Drizzle Studio (Datenbank im Browser ansehen)           |
+| `pnpm dev`         | Dev-Server starten                                         |
+| `pnpm build`       | Production-Build erstellen                                 |
+| `pnpm lint`        | ESLint ausführen                                           |
+| `pnpm db:generate` | SQL-Migration aus dem Schema erzeugen                      |
+| `pnpm db:migrate`  | Migrationen auf die Datenbank anwenden                     |
+| `pnpm db:seed`     | Datenbank leeren und mit Beispieldaten füllen              |
+| `pnpm db:reset`    | `db:migrate` + `db:seed` in einem Schritt                 |
+| `pnpm db:studio`   | Drizzle Studio (Datenbank im Browser ansehen)             |
 
 ## Projektstruktur (Auszug)
 

@@ -6,7 +6,7 @@ import { dirname } from "node:path";
 
 /**
  * Applies the SQL migrations in ./drizzle to the database.
- * Run with `npm run db:migrate`.
+ * Run with `pnpm db:migrate`.
  */
 const dbPath = process.env.DATABASE_URL ?? "data/zeroin.db";
 mkdirSync(dirname(dbPath), { recursive: true });

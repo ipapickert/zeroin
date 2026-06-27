@@ -4,7 +4,7 @@ import { defects, type NewDefect, type NewUser, users } from "./schema";
 
 /**
  * Seeds the database with realistic example defects so the list (and later the
- * dashboard) looks populated right after `git clone`. Run with `npm run db:seed`.
+ * dashboard) looks populated right after `git clone`. Run with `pnpm db:seed`.
  *
  * The script is idempotent: it clears the table first, then re-inserts.
  */

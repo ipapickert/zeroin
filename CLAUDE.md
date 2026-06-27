@@ -21,20 +21,20 @@ erweitert. **Aktueller Stand: Stufe 0 (lauffähige Basis, nur `defects`-CRUD).**
 ## Befehle
 
 ```bash
-npm run dev          # Dev-Server (http://localhost:3000)
-npm run build        # Production-Build
-npm run lint         # ESLint
+pnpm dev          # Dev-Server (http://localhost:3000)
+pnpm build        # Production-Build
+pnpm lint         # ESLint
 
-npm run db:generate  # SQL-Migration aus dem Schema erzeugen (nach Schemaänderung)
-npm run db:migrate   # Migrationen auf die DB anwenden
-npm run db:seed      # DB leeren und mit Beispieldaten füllen
-npm run db:reset     # migrate + seed in einem Schritt
-npm run db:studio    # Drizzle Studio (DB im Browser ansehen)
-npm run db:push      # Schema direkt in die DB pushen (ohne Migrationsdatei)
+pnpm db:generate  # SQL-Migration aus dem Schema erzeugen (nach Schemaänderung)
+pnpm db:migrate   # Migrationen auf die DB anwenden
+pnpm db:seed      # DB leeren und mit Beispieldaten füllen
+pnpm db:reset     # migrate + seed in einem Schritt
+pnpm db:studio    # Drizzle Studio (DB im Browser ansehen)
+pnpm db:push      # Schema direkt in die DB pushen (ohne Migrationsdatei)
 ```
 
-Setup nach dem Klonen: `npm install` → `npm run db:migrate` → `npm run db:seed`
-→ `npm run dev`. Es ist **keine `.env` nötig**; die DB liegt unter `data/zeroin.db`.
+Setup nach dem Klonen: `pnpm install` → `pnpm db:migrate` → `pnpm db:seed`
+→ `pnpm dev`. Es ist **keine `.env` nötig**; die DB liegt unter `data/zeroin.db`.
 Optional kann `SESSION_SECRET` (Login-Cookie-Signatur) gesetzt werden – ohne
 Wert greift ein fester Dev-Fallback. Beispiel-Logins nach dem Seed: jede
 Beispiel-E-Mail mit Passwort `passwort123`.
