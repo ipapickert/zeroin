@@ -31,8 +31,11 @@ pnpm-debug.log*
 .env*
 !.env.example
 
-# local SQLite database (file-based, created by migrate/seed)
-/data
+# local SQLite database (file-based, created by migrate/seed).
+# Der Ordner selbst bleibt versioniert (.gitkeep), weil `drizzle-kit push`
+# ihn nicht anlegt und sonst nach dem Klonen fehlschlaegt.
+/data/*
+!/data/.gitkeep
 
 # vercel
 .vercel
