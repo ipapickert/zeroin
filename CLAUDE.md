@@ -12,14 +12,7 @@ bearbeiten, löschen (Board und Tabelle), Login und Benutzerverwaltung (nur Admi
 
 - Next.js 16 (App Router) + React 19, TypeScript
 - SQLite (dateibasiert) mit Drizzle ORM, kein Docker / kein externer DB-Server
-- Tailwind CSS v4 + shadcn/ui (Preset „base-nova", Komponenten auf Basis von
-  `@base-ui/react`, Icons von `lucide-react`)
-- Schriften: Space Grotesk (Display/Überschriften, Utility `font-display`) +
-  Inter (Fließtext) + Geist Mono. Hell/Dunkel-Umschaltung via `next-themes`.
-- Markenfarbe Pickert-Rot (`#cc0000`) auf Anthrazit/Grau (`src/app/globals.css`),
-  semantische Status-Farben in `src/lib/status-styles.ts`
-  (offen = amber, in Bearbeitung = blau, erledigt = grün, überfällig = rot),
-  Prioritäts-Farben in `src/lib/priority-styles.ts` (niedrig = grün, mittel = gelb, hoch = rot)
+- Tailwind CSS v4 + shadcn/ui auf Base UI (`@base-ui/react`)
 
 ## Befehle
 
@@ -67,22 +60,15 @@ Beispiel-E-Mail mit Passwort `passwort123`.
   `getCurrentUser()` (DB), nur serverseitig
 - `src/components/defects/`, `src/components/users/`, `src/components/auth/` –
   fachliche Komponenten (Formular, Badges, Löschen-Dialog, Login-Formular)
-- `src/components/ui/` – shadcn/ui-Komponenten (nicht manuell stark umbauen).
-  Diese basieren auf `@base-ui/react`, **nicht** auf Radix: zum Verschmelzen mit
-  einem anderen Element `render={<Element />}` verwenden (kein `asChild`). Wird
-  ein `Button` als Link gerendert, zusätzlich `nativeButton={false}` setzen, z. B.
-  `<Button nativeButton={false} render={<Link href="…" />}>Text</Button>`.
+- `src/components/ui/` – shadcn/ui-Komponenten
 - `drizzle/` – generierte SQL-Migrationen
 - `data/` – lokale SQLite-Datei (git-ignoriert)
 
 ## Konventionen
 
 - **Code und Datenbank durchgehend Englisch** (Tabellen, Spalten, Enum-Keys,
-  Variablen, Datei-/Funktionsnamen). **Die UI ist Deutsch.**
-- **Enum-Keys sind Englisch**, die deutsche Anzeige läuft ausschließlich über die
-  Label-Map in `src/lib/labels.ts` (z. B. `open` → „offen"). Niemals den
-  deutschen Text in der DB speichern.
-- UI-Labels in Klartext, **keine Fachbegriffe** (kein „Ishikawa", „Pareto" etc.).
+  Variablen, Datei-/Funktionsnamen).
+- **Oberfläche (Sprache, Texte, Farben, Komponenten):** vor jeder UI-Änderung den Skill `ui-konventionen-probe` lesen und befolgen.
 - Läuft lokal oder als gehostete Kurs-Instanz; kein eigenes Deployment bauen.
   (Externe AI-APIs sind erst in späteren Kursstufen erlaubt, Key dann in `.env`.)
 - **Authentifizierung:** einfacher E-Mail/Passwort-Login mit signiertem
