@@ -46,7 +46,7 @@ const seedData: NewDefect[] = [
     priority: "medium",
     assignee: "Sandra Klein",
     createdAt: daysAgo(5),
-    dueAt: inDays(9),
+    dueAt: inDays(-3), // overdue on purpose: the course needs visible overdue defects
   },
   {
     title: "Schraubverbindung löst sich bei Vibration",
@@ -156,7 +156,7 @@ const seedData: NewDefect[] = [
     priority: "medium",
     assignee: "Markus Wolf",
     createdAt: daysAgo(11),
-    dueAt: inDays(6),
+    dueAt: inDays(-1), // overdue on purpose
   },
   {
     title: "Dichtung undicht nach Temperaturwechsel",
