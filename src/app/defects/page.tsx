@@ -14,6 +14,7 @@ import {
 import { Button } from "@/components/ui/button";
 import { db } from "@/db";
 import { defects } from "@/db/schema";
+import { parseDefectSort, sortDefects } from "@/lib/defect-sort";
 import { dueInfo } from "@/lib/format";
 
 // Always read the current database state instead of a build-time snapshot.
@@ -22,8 +23,10 @@ export const dynamic = "force-dynamic";
 export default async function DefectsPage({
   searchParams,
 }: PageProps<"/defects">) {
-  const { view: viewParam } = await searchParams;
+  const { view: viewParam, sort: sortParam, dir } = await searchParams;
   const view: DefectView = viewParam === "list" ? "list" : "board";
+  // Sorting only applies to the table; the board keeps "newest first".
+  const sort = parseDefectSort(sortParam, dir);
 
   const rows = await db
     .select()
@@ -70,7 +73,7 @@ export default async function DefectsPage({
           {view === "board" ? (
             <DefectBoard defects={rows} />
           ) : (
-            <DefectsTable defects={rows} />
+            <DefectsTable defects={sortDefects(rows, sort)} sort={sort} />
           )}
         </div>
       )}
