@@ -12,7 +12,14 @@ import { cn } from "@/lib/utils";
  * Kanban board: one column per status. Cards can be dragged between columns
  * to change their status (native HTML5 drag & drop, no extra library).
  */
-export function DefectBoard({ defects }: { defects: Defect[] }) {
+export function DefectBoard({
+  defects,
+  measureCounts,
+}: {
+  defects: Defect[];
+  // Anzahl der Maßnahmen je Fehler-ID (fehlt der Eintrag, gibt es keine)
+  measureCounts: Record<number, number>;
+}) {
   // A dropped card moves instantly; once the server action revalidates
   // `/defects`, the optimistic state resets to the fresh server data.
   const [items, applyMove] = useOptimistic(
@@ -94,7 +101,10 @@ export function DefectBoard({ defects }: { defects: Defect[] }) {
                       draggingId === defect.id && "opacity-50",
                     )}
                   >
-                    <DefectCard defect={defect} />
+                    <DefectCard
+                      defect={defect}
+                      measureCount={measureCounts[defect.id] ?? 0}
+                    />
                   </div>
                 ))
               ) : (

@@ -1,4 +1,4 @@
-import { desc } from "drizzle-orm";
+import { count, desc } from "drizzle-orm";
 import { Plus } from "lucide-react";
 import Link from "next/link";
 import { DefectBoard } from "@/components/defects/defect-board";
@@ -13,7 +13,7 @@ import {
 } from "@/components/defects/view-toggle";
 import { Button } from "@/components/ui/button";
 import { db } from "@/db";
-import { defects } from "@/db/schema";
+import { defects, measures } from "@/db/schema";
 import { parseDefectSort, sortDefects } from "@/lib/defect-sort";
 import { dueInfo } from "@/lib/format";
 
@@ -32,6 +32,15 @@ export default async function DefectsPage({
     .select()
     .from(defects)
     .orderBy(desc(defects.createdAt));
+
+  // Anzahl der Maßnahmen je Fehler (für den Zähler auf der Board-Karte).
+  const measureRows = await db
+    .select({ defectId: measures.defectId, total: count() })
+    .from(measures)
+    .groupBy(measures.defectId);
+  const measureCounts: Record<number, number> = Object.fromEntries(
+    measureRows.map((r) => [r.defectId, r.total]),
+  );
 
   const counts: DefectCounts = {
     open: rows.filter((d) => d.status === "open").length,
@@ -71,7 +80,7 @@ export default async function DefectsPage({
             <ViewToggle view={view} />
           </div>
           {view === "board" ? (
-            <DefectBoard defects={rows} />
+            <DefectBoard defects={rows} measureCounts={measureCounts} />
           ) : (
             <DefectsTable defects={sortDefects(rows, sort)} sort={sort} />
           )}
