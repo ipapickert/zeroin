@@ -47,7 +47,7 @@ Danach die App unter **http://localhost:3000** öffnen (die Startseite leitet au
 die Fehlerliste `/defects` weiter).
 
 > Eine `.env` ist **nicht erforderlich**. Die Datenbank wird als Datei unter
-> `data/zeroin.db` angelegt. Den Pfad kann man optional über `DATABASE_URL`
+> `data/zeroin.db` angelegt. Den Pfad kann man optional über `ZEROIN_DB_PATH`
 > ändern (siehe `.env.example`).
 
 ## Nützliche Befehle
