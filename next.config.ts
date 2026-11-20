@@ -15,6 +15,11 @@ const nextConfig: NextConfig = {
       transform: "lucide-react/dist/esm/icons/{{ kebabCase member }}",
     },
   },
+  // Hosted course instances run `next dev` behind a public subdomain. Next.js
+  // blocks dev-only requests (live reload, dev assets) from origins it does
+  // not know, so the subdomain is listed via ALLOWED_DEV_ORIGINS
+  // (comma-separated hostnames). Unset locally, where localhost just works.
+  allowedDevOrigins: process.env.ALLOWED_DEV_ORIGINS?.split(",").filter(Boolean),
 };
 
 export default nextConfig;

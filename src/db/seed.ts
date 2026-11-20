@@ -413,9 +413,13 @@ const seedData: NewDefect[] = [
   },
 ];
 
-// Example users. The same demo password is hashed for every account; there is
-// no login yet, so this is only so the list looks populated after a seed.
-const DEMO_PASSWORD = "passwort123";
+// Example users. The same demo password is hashed for every demo account.
+// Hosted course instances (e.g. on CRHQ) are reachable from the internet, so
+// they set SEED_PASSWORD and every seeded account gets that password instead
+// of the well-known local defaults below.
+const HOSTED_PASSWORD = process.env.SEED_PASSWORD;
+const DEMO_PASSWORD = HOSTED_PASSWORD ?? "passwort123";
+const IPA_PASSWORD = HOSTED_PASSWORD ?? "ipapickertio";
 
 const seedUsers: NewUser[] = [
   {
@@ -440,7 +444,7 @@ const seedUsers: NewUser[] = [
     name: "IPA",
     email: "ipa@pickert.io",
     role: "admin",
-    passwordHash: hashPassword("ipapickertio"),
+    passwordHash: hashPassword(IPA_PASSWORD),
   },
 ];
 
