@@ -8,10 +8,16 @@ import {
 } from "@/components/defects/defect-badges";
 import { DeleteDefectButton } from "@/components/defects/delete-defect-button";
 import { DueLabel } from "@/components/defects/due-label";
+import { OverdueWarningDialog } from "@/components/defects/overdue-warning-dialog";
 import { Button } from "@/components/ui/button";
 import { db } from "@/db";
 import { defects } from "@/db/schema";
-import { daysUntilDue, formatDate, formatDayCount } from "@/lib/format";
+import {
+  daysUntilDue,
+  dueInfo,
+  formatDate,
+  formatDayCount,
+} from "@/lib/format";
 
 function Field({
   label,
@@ -40,8 +46,18 @@ export default async function DefectDetailPage({
 
   if (!defect) notFound();
 
+  // Überfällig = Fälligkeit liegt in der Vergangenheit und der Fehler ist nicht erledigt.
+  const due = dueInfo(defect.dueAt, defect.status);
+
   return (
     <div className="mx-auto max-w-3xl space-y-6">
+      {due.overdue ? (
+        <OverdueWarningDialog
+          dueDate={formatDate(defect.dueAt)}
+          overdueLabel={due.label}
+        />
+      ) : null}
+
       <Link
         href="/defects"
         className="inline-flex items-center gap-1.5 text-sm text-muted-foreground transition-colors hover:text-foreground"

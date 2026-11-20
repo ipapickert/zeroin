@@ -38,3 +38,14 @@ export const STATUS_STYLES: Record<Status, StatusStyle> = {
     text: "text-emerald-600 dark:text-emerald-400",
   },
 };
+
+/**
+ * Farben für überfällige Fehler (rot). Kein eigener Status in der DB, sondern
+ * abgeleitet aus Fälligkeit + Status (siehe dueInfo in format.ts).
+ */
+export const OVERDUE_STYLE = {
+  /** Rote Akzent-Textfarbe, z. B. für das Warn-Icon. */
+  text: "text-red-600 dark:text-red-400",
+  /** Dezent roter Hintergrund für die Icon-Fläche im Warn-Popup. */
+  media: "bg-red-100 dark:bg-red-500/15",
+};
