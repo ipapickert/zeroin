@@ -2,16 +2,17 @@
 
 Ein lokales Werkzeug, um **Fehler (defects)** zu erfassen, ihren Status zu
 verfolgen und – in späteren Ausbaustufen – Ursachen, Maßnahmen, Fotos und
-Auswertungen zu ergänzen. Die App läuft komplett lokal: kein Cloud-Dienst, kein
-externer Datenbankserver, keine Anmeldung.
+Auswertungen zu ergänzen. Die App läuft lokal (oder als gehostete Kurs-Instanz):
+kein Cloud-Dienst, kein externer Datenbankserver.
 
 > Dieses Repository ist das Beispielprojekt eines Claude-Code-Kurses. Es startet
-> als lauffähige Basis (**Stufe 0**) und wird im Kursverlauf erweitert.
+> als lauffähige Basis und wird im Kursverlauf erweitert.
 
-## Funktionsumfang (Stufe 0)
+## Funktionsumfang (Kursstart)
 
 - Fehlerliste mit Titel, Kategorie, Status, Priorität, Verantwortlich, Fälligkeit
-- Fehler **anlegen, ansehen, bearbeiten und löschen** (CRUD)
+- Fehler **anlegen, ansehen, bearbeiten und löschen** (CRUD), als Board oder Tabelle
+- **Login** (E-Mail/Passwort) und **Benutzerverwaltung** für Admins
 - Deutsche Oberfläche; englische Enum-Keys werden über eine **Label-Map** auf
   deutsche Texte abgebildet (`open` → „offen" usw.)
 - Realistische **Beispieldaten** (36 Fehler) per Seed-Skript
@@ -24,7 +25,7 @@ externer Datenbankserver, keine Anmeldung.
 
 ## Voraussetzungen
 
-- Node.js 20 oder neuer
+- Node.js 22 oder neuer
 - pnpm
 
 ## Setup
@@ -92,7 +93,7 @@ data/                   # lokale SQLite-Datei (nicht im Git)
 
 - **Code & Datenbank durchgehend Englisch**, **Oberfläche Deutsch**.
 - Enum-Keys sind Englisch; die deutsche Anzeige läuft über `src/lib/labels.ts`.
-- Lokal only, keine Authentifizierung. Klarheit vor Cleverness – das Repo ist
+- Einfacher E-Mail/Passwort-Login, keine Registrierung. Klarheit vor Cleverness – das Repo ist
   Lehrmaterial.
 
 Mehr Kontext für die Arbeit mit Claude Code steht in [`CLAUDE.md`](./CLAUDE.md).

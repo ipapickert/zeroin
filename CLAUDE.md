@@ -5,7 +5,8 @@
 Ein lokales Werkzeug, um Fehler (defects) zu erfassen, ihren Status zu verfolgen
 und später Ursachen, Maßnahmen und Auswertungen zu ergänzen. Dieses Repo ist das
 Beispielprojekt eines Claude-Code-Kurses und wird im Kursverlauf schrittweise
-erweitert. **Aktueller Stand: Stufe 0 (lauffähige Basis, nur `defects`-CRUD).**
+erweitert. **Aktueller Stand: lauffähige Basis** – Fehler anlegen, ansehen,
+bearbeiten, löschen (Board und Tabelle), Login und Benutzerverwaltung (nur Admin).
 
 ## Tech-Stack
 
@@ -15,7 +16,8 @@ erweitert. **Aktueller Stand: Stufe 0 (lauffähige Basis, nur `defects`-CRUD).**
   `@base-ui/react`, Icons von `lucide-react`)
 - Schriften: Space Grotesk (Display/Überschriften, Utility `font-display`) +
   Inter (Fließtext) + Geist Mono. Hell/Dunkel-Umschaltung via `next-themes`.
-- Markenfarbe (violett) und semantische Status-Farben in `src/lib/status-styles.ts`
+- Markenfarbe Pickert-Rot (`#cc0000`) auf Anthrazit/Grau (`src/app/globals.css`),
+  semantische Status-Farben in `src/lib/status-styles.ts`
   (offen = amber, in Bearbeitung = blau, erledigt = grün, überfällig = rot)
 
 ## Befehle
@@ -34,7 +36,9 @@ pnpm db:push      # Schema direkt in die DB pushen (ohne Migrationsdatei)
 ```
 
 Setup nach dem Klonen: `pnpm install` → `pnpm db:migrate` → `pnpm db:seed`
-→ `pnpm dev`. Es ist **keine `.env` nötig**; die DB liegt unter `data/zeroin.db`.
+→ `pnpm dev`. Es ist **keine `.env` nötig**; die DB liegt unter `data/zeroin.db`
+(anderer Pfad über `ZEROIN_DB_PATH`). Auf einer gehosteten Kurs-Instanz läuft der
+Dev-Server bereits – dort gelten zusätzlich deren Entwicklungsrichtlinien.
 Optional kann `SESSION_SECRET` (Login-Cookie-Signatur) gesetzt werden – ohne
 Wert greift ein fester Dev-Fallback. Beispiel-Logins nach dem Seed: jede
 Beispiel-E-Mail mit Passwort `passwort123`.
@@ -78,8 +82,8 @@ Beispiel-E-Mail mit Passwort `passwort123`.
   Label-Map in `src/lib/labels.ts` (z. B. `open` → „offen"). Niemals den
   deutschen Text in der DB speichern.
 - UI-Labels in Klartext, **keine Fachbegriffe** (kein „Ishikawa", „Pareto" etc.).
-- Lokal only: keine Cloud, kein Deployment. (Externe AI-APIs sind erst in
-  späteren Kursstufen erlaubt, Key dann lokal in `.env`.)
+- Läuft lokal oder als gehostete Kurs-Instanz; kein eigenes Deployment bauen.
+  (Externe AI-APIs sind erst in späteren Kursstufen erlaubt, Key dann in `.env`.)
 - **Authentifizierung:** einfacher E-Mail/Passwort-Login mit signiertem
   Session-Cookie. Es gibt **keine Registrierung** – Konten werden manuell unter
   `/users` angelegt. Die Benutzerverwaltung (`/users` und die zugehörigen Server
@@ -100,7 +104,7 @@ Beispiel-E-Mail mit Passwort `passwort123`.
 
 **`users`:** `id`, `name`, `email` (eindeutig), `password_hash` (nie Klartext,
 siehe `src/lib/password.ts`), `role` (`admin` | `user` | `viewer`), `created_at`.
-Manuell gepflegt – noch kein Login/keine Registrierung.
+Manuell gepflegt unter `/users` (keine Registrierung).
 
 ## Bewusst NICHT umgesetzt (= Kursübungen)
 
