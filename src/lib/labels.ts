@@ -26,7 +26,6 @@ export const STATUS_LABELS: Record<Status, string> = {
 export const PRIORITY_LABELS: Record<Priority, string> = {
   low: "niedrig",
   medium: "mittel",
-  high: "hoch",
 };
 
 export const ROLE_LABELS: Record<Role, string> = {

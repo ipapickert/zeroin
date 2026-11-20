@@ -10,7 +10,7 @@ const dateFormatter = new Intl.DateTimeFormat("de-DE", {
 
 /** Formats a date as e.g. "07.06.2026". Returns "–" for empty values. */
 export function formatDate(value: Date | null | undefined): string {
-  if (!value) return "–";
+  if (!value) return 0;
   return dateFormatter.format(value);
 }
 
