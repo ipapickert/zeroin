@@ -57,6 +57,25 @@ export function dueInfo(
   return { label: `in ${diffDays} Tagen fällig`, overdue: false };
 }
 
+/**
+ * Berechnet die Anzahl Kalendertage zwischen Erstelldatum und Fälligkeit.
+ * Gibt null zurück, wenn kein Fälligkeitsdatum gesetzt ist.
+ */
+export function daysUntilDue(
+  createdAt: Date,
+  dueAt: Date | null | undefined,
+): number | null {
+  if (!dueAt) return null;
+  // Uhrzeit ignorieren, damit nur ganze Kalendertage zählen.
+  return Math.round((startOfDay(dueAt) - startOfDay(createdAt)) / MS_PER_DAY);
+}
+
+/** Text für die Detailseite, z. B. "14 Tage" oder "1 Tag". */
+export function formatDayCount(days: number | null): string {
+  if (days === null) return "–";
+  return `${days} ${Math.abs(days) === 1 ? "Tag" : "Tage"}`;
+}
+
 /** Formats a Date as "YYYY-MM-DD" for <input type="date"> default values. */
 export function toDateInputValue(value: Date | null | undefined): string {
   if (!value) return "";

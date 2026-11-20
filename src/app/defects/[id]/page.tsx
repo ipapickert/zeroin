@@ -11,7 +11,7 @@ import { DueLabel } from "@/components/defects/due-label";
 import { Button } from "@/components/ui/button";
 import { db } from "@/db";
 import { defects } from "@/db/schema";
-import { formatDate } from "@/lib/format";
+import { daysUntilDue, formatDate, formatDayCount } from "@/lib/format";
 
 function Field({
   label,
@@ -78,6 +78,10 @@ export default async function DefectDetailPage({
         <Field label="Verantwortlich">{defect.assignee ?? "–"}</Field>
         <Field label="Erstellt am">{formatDate(defect.createdAt)}</Field>
         <Field label="Fällig am">{formatDate(defect.dueAt)}</Field>
+        {/* Zeitraum, den man sich beim Anlegen für die Erledigung gegeben hat */}
+        <Field label="Tage bis Fälligkeit">
+          {formatDayCount(daysUntilDue(defect.createdAt, defect.dueAt))}
+        </Field>
         <div className="sm:col-span-2">
           <Field label="Beschreibung">
             {defect.description ? (
