@@ -9,10 +9,17 @@ import { integer, sqliteTable, text } from "drizzle-orm/sqlite-core";
 export const STATUS_VALUES = ["open", "in_progress", "done"] as const;
 export const PRIORITY_VALUES = ["low", "medium", "high"] as const;
 export const ROLE_VALUES = ["admin", "user", "viewer"] as const;
+// Art der Maßnahme: Sofort-, Abstell-, Vorbeugemaßnahme
+export const MEASURE_TYPE_VALUES = [
+  "immediate",
+  "corrective",
+  "preventive",
+] as const;
 
 export type Status = (typeof STATUS_VALUES)[number];
 export type Priority = (typeof PRIORITY_VALUES)[number];
 export type Role = (typeof ROLE_VALUES)[number];
+export type MeasureType = (typeof MEASURE_TYPE_VALUES)[number];
 
 /**
  * `defects` (Fehler) — the core table of the tracker.
@@ -68,3 +75,34 @@ export const users = sqliteTable("users", {
 
 export type User = typeof users.$inferSelect;
 export type NewUser = typeof users.$inferInsert;
+
+/**
+ * `measures` (Maßnahmen) — was gegen einen Fehler getan wird.
+ * Jede Maßnahme gehört zu genau einem Fehler. Wird der Fehler gelöscht,
+ * werden seine Maßnahmen mitgelöscht (onDelete: "cascade").
+ * Bewusst nicht `actions` genannt, um Verwechslung mit den Server Actions zu vermeiden.
+ */
+export const measures = sqliteTable("measures", {
+  id: integer("id").primaryKey({ autoIncrement: true }),
+  // Zugehöriger Fehler
+  defectId: integer("defect_id")
+    .notNull()
+    .references(() => defects.id, { onDelete: "cascade" }),
+  // Titel
+  title: text("title").notNull(),
+  // Art: Sofortmaßnahme / Abstellmaßnahme / Vorbeugemaßnahme
+  type: text("type", { enum: MEASURE_TYPE_VALUES }).notNull(),
+  // Status: offen / in Bearbeitung / erledigt (dieselben Werte wie beim Fehler)
+  status: text("status", { enum: STATUS_VALUES }).notNull().default("open"),
+  // Verantwortlich (freier Text, auch für Kollegen ohne Konto)
+  assignee: text("assignee"),
+  // Erstellt am
+  createdAt: integer("created_at", { mode: "timestamp" })
+    .notNull()
+    .default(sql`(unixepoch())`),
+  // Fällig am
+  dueAt: integer("due_at", { mode: "timestamp" }),
+});
+
+export type Measure = typeof measures.$inferSelect;
+export type NewMeasure = typeof measures.$inferInsert;

@@ -1,4 +1,6 @@
 import {
+  MEASURE_TYPE_VALUES,
+  type MeasureType,
   type Priority,
   PRIORITY_VALUES,
   type Role,
@@ -33,6 +35,13 @@ export const ROLE_LABELS: Record<Role, string> = {
   viewer: "Betrachter",
 };
 
+// Art der Maßnahme
+export const MEASURE_TYPE_LABELS: Record<MeasureType, string> = {
+  immediate: "Sofortmaßnahme",
+  corrective: "Abstellmaßnahme",
+  preventive: "Vorbeugemaßnahme",
+};
+
 export function statusLabel(status: Status): string {
   return STATUS_LABELS[status];
 }
@@ -43,6 +52,10 @@ export function priorityLabel(priority: Priority): string {
 
 export function roleLabel(role: Role): string {
   return ROLE_LABELS[role];
+}
+
+export function measureTypeLabel(type: MeasureType): string {
+  return MEASURE_TYPE_LABELS[type];
 }
 
 /** Options for <select> inputs: { value: englishKey, label: germanText }. */
@@ -59,4 +72,9 @@ export const PRIORITY_OPTIONS = PRIORITY_VALUES.map((value) => ({
 export const ROLE_OPTIONS = ROLE_VALUES.map((value) => ({
   value,
   label: ROLE_LABELS[value],
+}));
+
+export const MEASURE_TYPE_OPTIONS = MEASURE_TYPE_VALUES.map((value) => ({
+  value,
+  label: MEASURE_TYPE_LABELS[value],
 }));

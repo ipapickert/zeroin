@@ -8,10 +8,12 @@ import {
 } from "@/components/defects/defect-badges";
 import { DeleteDefectButton } from "@/components/defects/delete-defect-button";
 import { DueLabel } from "@/components/defects/due-label";
+import { MeasureForm } from "@/components/defects/measure-form";
+import { MeasureList } from "@/components/defects/measure-list";
 import { OverdueWarningDialog } from "@/components/defects/overdue-warning-dialog";
 import { Button } from "@/components/ui/button";
 import { db } from "@/db";
-import { defects } from "@/db/schema";
+import { defects, measures } from "@/db/schema";
 import {
   daysUntilDue,
   dueInfo,
@@ -45,6 +47,11 @@ export default async function DefectDetailPage({
   });
 
   if (!defect) notFound();
+
+  // Nur die Maßnahmen dieses Fehlers laden.
+  const defectMeasures = await db.query.measures.findMany({
+    where: eq(measures.defectId, defect.id),
+  });
 
   // Überfällig = Fälligkeit liegt in der Vergangenheit und der Fehler ist nicht erledigt.
   const due = dueInfo(defect.dueAt, defect.status);
@@ -112,6 +119,15 @@ export default async function DefectDetailPage({
           </Field>
         </div>
       </dl>
+
+      {/* Abschnitt „Maßnahmen": was gegen diesen Fehler getan wird */}
+      <section className="space-y-4 rounded-xl border bg-card p-6 shadow-sm">
+        <h2 className="font-display text-lg font-semibold tracking-tight">
+          Maßnahmen
+        </h2>
+        <MeasureList measures={defectMeasures} />
+        <MeasureForm defectId={defect.id} />
+      </section>
     </div>
   );
 }
