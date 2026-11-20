@@ -18,7 +18,8 @@ bearbeiten, löschen (Board und Tabelle), Login und Benutzerverwaltung (nur Admi
   Inter (Fließtext) + Geist Mono. Hell/Dunkel-Umschaltung via `next-themes`.
 - Markenfarbe Pickert-Rot (`#cc0000`) auf Anthrazit/Grau (`src/app/globals.css`),
   semantische Status-Farben in `src/lib/status-styles.ts`
-  (offen = amber, in Bearbeitung = blau, erledigt = grün, überfällig = rot)
+  (offen = amber, in Bearbeitung = blau, erledigt = grün, überfällig = rot),
+  Prioritäts-Farben in `src/lib/priority-styles.ts` (niedrig = grün, mittel = gelb, hoch = rot)
 
 ## Befehle
 
@@ -110,6 +111,5 @@ Manuell gepflegt unter `/users` (keine Registrierung).
 
 Damit die folgenden Aufgaben echte Übungen bleiben, sind sie absichtlich offen:
 
-- **Stufe 1:** Prioritäts-Badges einfärben (`PriorityBadge` ist neutral),
-  Liste sortierbar machen (aktuell feste Sortierung nach `created_at` absteigend).
+- **Stufe 1:** Liste sortierbar machen (aktuell feste Sortierung nach `created_at` absteigend).
 - Filter/Suche, Maßnahmen, Fotos, Dashboard, AI-Wiederholfehler – alles spätere Stufen.

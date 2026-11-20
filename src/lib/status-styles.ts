@@ -2,8 +2,7 @@ import type { Status } from "@/db/schema";
 
 /**
  * Semantic colours per status. Used by badges, the board columns and dots.
- * (Priority colouring is intentionally left out — that is the first course
- * exercise, see CLAUDE.md.)
+ * (Priority colours live in priority-styles.ts.)
  */
 type StatusStyle = {
   /** Small filled badge (e.g. in the table / cards). */

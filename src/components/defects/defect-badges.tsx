@@ -1,6 +1,6 @@
-import { Badge } from "@/components/ui/badge";
 import type { Priority, Status } from "@/db/schema";
 import { priorityLabel, statusLabel } from "@/lib/labels";
+import { PRIORITY_STYLES } from "@/lib/priority-styles";
 import { STATUS_STYLES } from "@/lib/status-styles";
 import { cn } from "@/lib/utils";
 
@@ -30,9 +30,26 @@ export function StatusBadge({
 }
 
 /**
- * Priority badge — intentionally neutral. Colouring it by value is the first
- * course exercise ("Prioritäts-Badges einfärben"), so it stays plain here.
+ * Coloured priority badge with a leading dot (colours from PRIORITY_STYLES).
  */
-export function PriorityBadge({ priority }: { priority: Priority }) {
-  return <Badge variant="outline">{priorityLabel(priority)}</Badge>;
+export function PriorityBadge({
+  priority,
+  className,
+}: {
+  priority: Priority;
+  className?: string;
+}) {
+  const style = PRIORITY_STYLES[priority];
+  return (
+    <span
+      className={cn(
+        "inline-flex items-center gap-1.5 rounded-full border px-2.5 py-0.5 text-xs font-medium",
+        style.badge,
+        className,
+      )}
+    >
+      <span className={cn("size-1.5 rounded-full", style.dot)} />
+      {priorityLabel(priority)}
+    </span>
+  );
 }
