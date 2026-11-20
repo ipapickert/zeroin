@@ -10,6 +10,9 @@ import { type Defect, type Priority, STATUS_VALUES } from "@/db/schema";
  * "asc" always means "the most useful order first": titles A–Z, open before
  * done, high priority before low, earliest due date first. Empty values
  * (no assignee, no due date) always go to the end, in both directions.
+ *
+ * Rows with the same value are ordered by a fixed second criterion per
+ * column (see SECONDARY_KEY), then by "newest first".
  */
 
 export const SORT_KEYS = [
@@ -76,25 +79,57 @@ function compareValues(a: SortValue, b: SortValue): number {
 }
 
 /**
- * Returns a sorted copy of `defects`. Ties are broken by "newest first",
- * the default order of the list.
+ * Compares two defects by one column. `factor` is 1 (asc) or -1 (desc).
+ * Empty values always go last, regardless of direction.
+ */
+function compareByKey(
+  a: Defect,
+  b: Defect,
+  key: SortKey,
+  factor: 1 | -1,
+): number {
+  const valueA = sortValue(a, key);
+  const valueB = sortValue(b, key);
+
+  if (valueA === null && valueB === null) return 0;
+  if (valueA === null) return 1;
+  if (valueB === null) return -1;
+  return compareValues(valueA, valueB) * factor;
+}
+
+/**
+ * Second criterion for rows with the same value in the sorted column.
+ * It always runs in its own "useful" order (high priority first, earliest
+ * due date first) and does not flip with the main direction, so the
+ * important defects stay on top.
+ */
+const SECONDARY_KEY: Record<SortKey, SortKey | null> = {
+  title: null,
+  category: "priority",
+  status: "priority",
+  assignee: "priority",
+  dueAt: "priority",
+  priority: "dueAt",
+};
+
+/**
+ * Returns a sorted copy of `defects`: by the chosen column, then by the
+ * column's second criterion, then "newest first" (the default order).
  */
 export function sortDefects(defects: Defect[], sort: DefectSort): Defect[] {
   if (!sort) return defects;
   const factor = sort.direction === "asc" ? 1 : -1;
+  const secondaryKey = SECONDARY_KEY[sort.key];
 
   return [...defects].sort((a, b) => {
-    const valueA = sortValue(a, sort.key);
-    const valueB = sortValue(b, sort.key);
+    const main = compareByKey(a, b, sort.key, factor);
+    if (main !== 0) return main;
 
-    // Empty values always last, regardless of direction.
-    if (valueA === null && valueB !== null) return 1;
-    if (valueA !== null && valueB === null) return -1;
-
-    if (valueA !== null && valueB !== null) {
-      const result = compareValues(valueA, valueB);
-      if (result !== 0) return result * factor;
+    if (secondaryKey) {
+      const secondary = compareByKey(a, b, secondaryKey, 1);
+      if (secondary !== 0) return secondary;
     }
+
     return b.createdAt.getTime() - a.createdAt.getTime();
   });
 }
