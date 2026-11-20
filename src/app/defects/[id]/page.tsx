@@ -11,6 +11,7 @@ import { DueLabel } from "@/components/defects/due-label";
 import { MeasureForm } from "@/components/defects/measure-form";
 import { MeasureList } from "@/components/defects/measure-list";
 import { OverdueWarningDialog } from "@/components/defects/overdue-warning-dialog";
+import { SimilarDefects } from "@/components/defects/similar-defects";
 import { Button } from "@/components/ui/button";
 import { db } from "@/db";
 import { defects, measures } from "@/db/schema";
@@ -127,6 +128,14 @@ export default async function DefectDetailPage({
         </h2>
         <MeasureList measures={defectMeasures} />
         <MeasureForm defectId={defect.id} />
+      </section>
+
+      {/* Abschnitt „Ähnliche Fehler": KI sucht Wiederholfehler */}
+      <section className="space-y-4 rounded-xl border bg-card p-6 shadow-sm">
+        <h2 className="font-display text-lg font-semibold tracking-tight">
+          Ähnliche Fehler
+        </h2>
+        <SimilarDefects defectId={defect.id} />
       </section>
     </div>
   );
